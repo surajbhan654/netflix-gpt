@@ -3,13 +3,13 @@ import Header from './Header'
 import {checkValidData} from '../utils/Validate'
 import {createUserWithEmailAndPassword,signInWithEmailAndPassword, updateProfile} from "firebase/auth";
 import {auth} from '../utils/firebase';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
+import { User_Avtar } from '../utils/constants';
 
 //yha hm user ko auth.currentUser se bhi nikal skte hain
 // or userCredential.user isse bhi nikal skte hain user ko
-// ya fir store se nikal skte hain
+// ya fir store se nikal skte hain 
 
 const Login = () => {
 
@@ -22,7 +22,6 @@ const Login = () => {
   const password = useRef(null);
   //useRef use only for boxes like button, input box
   // if we want to store then we can use state variable. 
-  const navigate = useNavigate();
  
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -46,13 +45,14 @@ const Login = () => {
           const user = userCredential.user; 
           updateProfile(auth.currentUser, {
             //adding new data i.e displayName and photoURL in user
-            displayName: name.current.value, photoURL: "https://avatars.githubusercontent.com/u/58772971?v=4"
-          }).then(() => {
+            displayName: name.current.value, photoURL: User_Avtar
+          })
+          .then(() => {
             //here auth is utility function  which is updated because user(store) is not updated
-            const {uid, email, displayName, photoURL} = auth.currentUser;
-            dispatch(addUser({uid:uid, email:email, displayName:displayName, photoURL:photoURL}))
-            navigate('/browse');
-          }).catch((error) => {
+            const {uid, email, displayName, User_Avtar} = auth.currentUser;
+            dispatch(addUser({uid:uid, email:email, displayName:displayName, photoURL:User_Avtar}))
+          })
+          .catch((error) => {
             setErrorMessage(error.message);
           });
           console.log(user);
@@ -69,10 +69,7 @@ const Login = () => {
       signInWithEmailAndPassword(auth, email.current.value, password.current.value)
       .then((userCredential) => {
         // Signed in 
-        const user = userCredential.user;
-        console.log(user);
-        navigate('/browse');
-        
+        // const user = userCredential.user;
       })
       .catch((error) => {
         const errorCode = error.code;
