@@ -5,7 +5,7 @@ import {createUserWithEmailAndPassword,signInWithEmailAndPassword, updateProfile
 import {auth} from '../utils/firebase';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
-import { User_Avtar } from '../utils/constants';
+import { BG_URL, User_Avtar } from '../utils/constants';
 
 //yha hm user ko auth.currentUser se bhi nikal skte hain
 // or userCredential.user isse bhi nikal skte hain user ko
@@ -30,8 +30,6 @@ const Login = () => {
   const handleButtonClick = () => {
      
     // email.current is refering to the input box
-    console.log(email.current.value);
-    console.log(password.current.value);
     const message = checkValidData(email.current.value, password.current.value);
     setErrorMessage(message);
     if(message) return;
@@ -55,8 +53,6 @@ const Login = () => {
           .catch((error) => {
             setErrorMessage(error.message);
           });
-          console.log(user);
-
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -87,7 +83,7 @@ const Login = () => {
         <Header/>
         
         <div className='absolute'>
-            <img src='https://assets.nflxext.com/ffe/siteui/vlv3/151f3e1e-b2c9-4626-afcd-6b39d0b2694f/web/IN-en-20241028-TRIFECTA-perspective_bce9a321-39cb-4cce-8ba6-02dab4c72e53_large.jpg'
+            <img className=' object-cover' src= {BG_URL}
              alt='logo' />
         </div>
 
